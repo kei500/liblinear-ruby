@@ -8,7 +8,6 @@ require 'liblinear/problem'
 require 'liblinear/version'
 
 module Liblinear
-  #include Liblinearswig
   # @param ruby_array [Array<Integer>]
   # @return [SWIG::TYPE_p_int]
   def new_int_array(ruby_array)
@@ -41,12 +40,14 @@ module Liblinear
 
   # @param c_array [SWIG::TYPE_p_int]
   # @param size [Integer]
+  # @return [Array<Integer>]
   def int_array_c_to_ruby(c_array, size)
     size.times.map {|index| int_getitem(c_array, index)}
   end
 
   # @param c_array [SWIG::TYPE_p_double]
   # @param size [Integer]
+  # @return [Array<Double>]
   def double_array_c_to_ruby(c_array, size)
     size.times.map {|index| double_getitem(c_array, index)}
   end
@@ -66,7 +67,7 @@ module Liblinear
         example_indexes << index
       end
     else
-      raise TypeError, 'data must be a Hash or an Array'
+      raise TypeError, 'example must be a Hash or an Array'
     end
     example_indexes.sort!
 

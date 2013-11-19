@@ -6,6 +6,8 @@ module Liblinear
 
     # @param arg_1 [LibLinear::Problem, String]
     # @param arg_2 [Liblinear::Parameter]
+    # @raise [ArgumentError]
+    # @raise [Liblinear::InvalidParameter]
     def initialize(arg_1, arg_2 = nil)
       if arg_2
         unless arg_1.is_a?(Liblinear::Problem) && arg_2.is_a?(Liblinear::Parameter)
@@ -20,12 +22,12 @@ module Liblinear
       end
     end
 
-    # return [Integer]
+    # @return [Integer]
     def nr_class
       get_nr_class(@model)
     end
 
-    # return [Array<Integer>]
+    # @return [Array<Integer>]
     def labels
       c_int_array = new_int(nr_class)
       get_labels(@model, c_int_array)
@@ -35,6 +37,7 @@ module Liblinear
     end
 
     # @param example [Array, Hash]
+    # @return [Double]
     def predict(example)
       feature_nodes = convert_to_feature_node_array(example, @model.nr_feature, @model.bias)
       prediction = Liblinearswig.predict(@model, feature_nodes)
