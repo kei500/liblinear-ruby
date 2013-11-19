@@ -8,6 +8,7 @@ InstalledFiles
 _yardoc
 coverage
 doc/
+ext/Makefile
 ext/*.o
 ext/*.so
 lib/bundler/man
