@@ -67,7 +67,7 @@ module Liblinear
         example_indexes << index
       end
     else
-      raise TypeError, 'data must be a Hash or an Array'
+      raise TypeError, 'example must be a Hash or an Array'
     end
     example_indexes.sort!
 
