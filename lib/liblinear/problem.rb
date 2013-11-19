@@ -7,6 +7,7 @@ module Liblinear
     # @param labels [Array<Double>]
     # @param examples [Array<Double>, Array<Hash>]
     # @param bias [Double]
+    # @raise [ArgumentError]
     def initialize(labels, examples, bias)
       unless labels.size == examples.size
         raise ArgumentError, 'labels and examples must be same size'
