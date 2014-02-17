@@ -81,6 +81,7 @@ module Liblinear
   # @param array [Array]
   # @return [Hash]
   def array_to_hash(array)
+    raise ArgumentError unless array.is_a?(Array)
     hash = {}
     key = 1
     array.each do |value|
