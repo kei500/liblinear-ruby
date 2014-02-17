@@ -19,13 +19,13 @@ module Liblinear
       end
     end
 
-    # @params weigt_label [Array<Integer>]
+    # @params weigt_label [Array <Integer>]
     def weight_label=(weight_label)
       free_int_array(@params.weight_label)
       @params.weight_label = new_int_array(weight_label)
     end
 
-    # @params weight [Array<Double>]
+    # @params weight [Array <Double>]
     def weight=(weight)
       free_double_array(@params.weight)
       @params.weight = new_double_array(weight)
