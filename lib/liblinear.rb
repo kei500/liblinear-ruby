@@ -20,7 +20,7 @@ module Liblinear
   L2R_L2LOSS_SVR_DUAL = Liblinearswig::L2R_L2LOSS_SVR_DUAL
   L2R_L1LOSS_SVR_DUAL = Liblinearswig::L2R_L1LOSS_SVR_DUAL
 
-  # @param ruby_array [Array<Integer>]
+  # @param ruby_array [Array <Integer>]
   # @return [SWIG::TYPE_p_int]
   def new_int_array(ruby_array)
     c_int_array = Liblinearswig.new_int(ruby_array.size)
@@ -35,7 +35,7 @@ module Liblinear
     delete_int(c_array) unless c_array.nil?
   end
 
-  # @param ruby_array [Array<Double>]
+  # @param ruby_array [Array <Double>]
   # @return [SWIG::TYPE_p_double]
   def new_double_array(ruby_array)
     c_double_array = Liblinearswig.new_double(ruby_array.size)
@@ -59,7 +59,7 @@ module Liblinear
 
   # @param c_array [SWIG::TYPE_p_double]
   # @param size [Integer]
-  # @return [Array<Double>]
+  # @return [Array <Double>]
   def double_array_c_to_ruby(c_array, size)
     size.times.map {|index| double_getitem(c_array, index)}
   end

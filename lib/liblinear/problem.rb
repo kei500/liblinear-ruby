@@ -4,8 +4,8 @@ module Liblinear
     include Liblinearswig
     attr_accessor :prob
 
-    # @param labels [Array<Double>]
-    # @param examples [Array<Double>, Array<Hash>]
+    # @param labels [Array <Double>]
+    # @param examples [Array <Double, Hash>]
     # @param bias [Double]
     # @raise [ArgumentError]
     def initialize(labels, examples, bias = -1)
