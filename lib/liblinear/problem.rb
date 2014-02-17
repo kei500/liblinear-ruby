@@ -16,7 +16,7 @@ module Liblinear
       @c_label = new_double_array(labels)
       @examples = examples
       @bias = bias
-      @max_example_index = max_example_index
+      @max_example_index = max_index(@examples)
       @example_matrix = feature_node_matrix(examples.size)
       @c_example_array = []
 
@@ -30,19 +30,6 @@ module Liblinear
         p.n = @max_example_index
         p.n += 1 if bias >= 0
       end
-    end
-
-    # @return [Integer]
-    def max_example_index
-      max_example_index = 0
-      @examples.each do |example|
-        if example.is_a?(Hash)
-          max_example_index = [max_example_index, example.keys.max].max if example.size > 0
-        else
-          max_example_index = [max_example_index, example.size].max
-        end
-      end
-      max_example_index
     end
 
     def set_example_matrix

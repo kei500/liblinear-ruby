@@ -64,6 +64,32 @@ module Liblinear
     size.times.map {|index| double_getitem(c_array, index)}
   end
 
+  # @param examples [Array <Hash, Array>]
+  # @return [Integer]
+  def max_index(examples)
+    max_index = 0
+    examples.each do |example|
+      if example.is_a?(Hash)
+        max_index = [max_index, example.keys.max].max if example.size > 0
+      else
+        max_index = [max_index, example.size].max
+      end
+    end
+    max_index
+  end
+
+  # @param array [Array]
+  # @return [Hash]
+  def array_to_hash(array)
+    hash = {}
+    key = 1
+    array.each do |value|
+      hash[key] = value
+      key += 1
+    end
+    hash
+  end
+
   # @param example [Hash, Array]
   # @param max_value_index [Integer]
   # @param bias [Double]
@@ -92,17 +118,5 @@ module Liblinear
       f_index += 1
     end
     feature_nodes
-  end
-
-  # @param array [Array]
-  # @return [Hash]
-  def array_to_hash(array)
-    hash = {}
-    key = 1
-    array.each do |value|
-      hash[key] = value
-      key += 1
-    end
-    hash
   end
 end
