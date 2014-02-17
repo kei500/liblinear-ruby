@@ -69,17 +69,11 @@ module Liblinear
   # @param bias [Double]
   # @return [Liblinearswig::Feature_node]
   def convert_to_feature_node_array(example, max_value_index, bias = -1)
+    example = array_to_hash(example) if example.is_a?(Array)
+
     example_indexes = []
-    if example.is_a?(Hash)
-      example.each_key do |key|
-        example_indexes << key
-      end
-    elsif example.is_a?(Array)
-      example.each_index do |index|
-        example_indexes << index
-      end
-    else
-      raise TypeError, 'example must be a Hash or an Array'
+    example.each_key do |key|
+      example_indexes << key
     end
     example_indexes.sort!
 
@@ -98,5 +92,17 @@ module Liblinear
       f_index += 1
     end
     feature_nodes
+  end
+
+  # @param array [Array]
+  # @return [Hash]
+  def array_to_hash(array)
+    hash = {}
+    key = 1
+    array.each do |value|
+      hash[key] = value
+      key += 1
+    end
+    hash
   end
 end
