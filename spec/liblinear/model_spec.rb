@@ -53,4 +53,10 @@ describe Liblinear::Model do
       expect(@model.predict_probability([1]).class).to eq(Hash)
     end
   end
+
+  describe '#predict_values' do
+    it 'return predict_values' do
+      expect(@model.predict_values([1]).class).to eq(Hash)
+    end
+  end
 end
