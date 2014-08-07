@@ -48,22 +48,35 @@ module Liblinear
     # @param example [Array, Hash]
     # @return [Hash]
     def predict_probability(example)
-      feature_nodes = convert_to_feature_node_array(example, @model.nr_feature, @model.bias)
-      c_double_array = new_double_array(nr_class)
-      Liblinearswig.predict_probability(@model, feature_nodes, c_double_array)
-      probabilities = double_array_c_to_ruby(c_double_array, nr_class)
-      delete_double(c_double_array)
-      feature_node_array_destroy(feature_nodes)
-      probability_list = {}
-      labels.size.times do |i|
-        probability_list[labels[i]] = probabilities[i]
-      end
-      probability_list
+      predict_prob_val(example, :predict_probability)
+    end
+
+    # @param example [Array, Hash]
+    # @return [Hash]
+    def predict_values(example)
+      predict_prob_val(example, :predict_values)
     end
 
     # @param filename [String]
     def save(filename)
       save_model(filename, @model)
+    end
+
+    private 
+    # @param example [Array, Hash]
+    # @return [Hash]
+    def predict_prob_val(example, liblinear_func)
+      feature_nodes = convert_to_feature_node_array(example, @model.nr_feature, @model.bias)
+      c_double_array = Liblinearswig.new_double(nr_class)
+      Liblinearswig.send(liblinear_func, @model, feature_nodes, c_double_array)
+      values = double_array_c_to_ruby(c_double_array, nr_class)
+      delete_double(c_double_array)
+      feature_node_array_destroy(feature_nodes)
+      value_list = {}
+      labels.size.times do |i|
+        value_list[labels[i]] = values[i]
+      end
+      value_list
     end
   end
 end
