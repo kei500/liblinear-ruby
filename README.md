@@ -1,8 +1,8 @@
 # Liblinear-Ruby
 [![Gem Version](https://badge.fury.io/rb/liblinear-ruby.png)](http://badge.fury.io/rb/liblinear-ruby)
 
-Liblinear-Ruby is Ruby interface to LIBLINEAR using SWIG.  
-Now, this interface is supporting LIBLINEAR 1.94.
+Liblinear-Ruby is Ruby interface to LIBLINEAR using SWIG.
+Now, this interface is supporting LIBLINEAR 1.95.
 
 ## Installation
 
@@ -39,6 +39,10 @@ model = Liblinear::Model.new(prob, param)
 
 # Predicting phase
 puts model.predict({1=>1, 2=>1, 3=>1, 4=>1, 5=>1}) # => -1.0
+
+# Analyzing phase
+puts model.coefficient
+puts model.bias
 ```
 ## Usage
 
@@ -147,7 +151,6 @@ model = Liblinear::Model.new(prob, param)
 ```
 If you have already had a model file, you can load it as:
 ```ruby
-prob = Liblinear::Problem.new(labels, examples, bias)
 model = Liblinear::Model.new(model_file)
 ```
 In this phase, you can save model as:
