@@ -40,7 +40,7 @@ describe Liblinear::Model do
   end
 
   describe '#feature_size' do
-    it 'return the number of features' do
+    it 'returns the number of features' do
       expect(@model_classification.feature_size).to eq(1)
     end
   end
@@ -52,19 +52,19 @@ describe Liblinear::Model do
   end
 
   describe '#predict' do
-    it 'return predicted class' do
+    it 'returns predicted class' do
       expect(@model_classification.predict([1]).class).to eq(Float)
     end
   end
 
   describe '#predict_probability' do
-    it 'return predict_probability' do
+    it 'returns predict_probability' do
       expect(@model_classification.predict_probability([1]).class).to eq(Hash)
     end
   end
 
   describe '#predict_values' do
-    it 'return predict_values' do
+    it 'returns predict_values' do
       expect(@model_classification.predict_values([1]).class).to eq(Hash)
     end
   end
@@ -84,11 +84,11 @@ describe Liblinear::Model do
   end
 
   describe '#regression_model?' do
-    it 'return true' do
+    it 'returns true' do
       expect(@model_regression.regression_model?).to eq(true)
     end
 
-    it 'return false' do
+    it 'returns false' do
       expect(@model_classification.regression_model?).to eq (false)
     end
   end
