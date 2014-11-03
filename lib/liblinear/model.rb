@@ -40,9 +40,9 @@ module Liblinear
 
     # @return [Array <Integer>]
     def labels
-      c_int_array = new_int(nr_class)
+      c_int_array = new_int(class_size)
       get_labels(@model, c_int_array)
-      labels = int_array_c_to_ruby(c_int_array, nr_class)
+      labels = int_array_c_to_ruby(c_int_array, class_size)
       delete_int(c_int_array)
       labels
     end
@@ -98,9 +98,9 @@ module Liblinear
     # @return [Hash]
     def predict_prob_val(example, liblinear_func)
       feature_nodes = convert_to_feature_node_array(example, @model.nr_feature, @model.bias)
-      c_double_array = Liblinearswig.new_double(nr_class)
+      c_double_array = new_double(class_size)
       Liblinearswig.send(liblinear_func, @model, feature_nodes, c_double_array)
-      values = double_array_c_to_ruby(c_double_array, nr_class)
+      values = double_array_c_to_ruby(c_double_array, class_size)
       delete_double(c_double_array)
       feature_node_array_destroy(feature_nodes)
       value_list = {}
