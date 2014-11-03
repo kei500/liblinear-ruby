@@ -62,7 +62,12 @@ module Liblinear
       save_model(filename, @model)
     end
 
-    private 
+    # @return [Boolean]
+    def regression_model?
+      check_regression_model(@model) == 1 ? true : false
+    end
+
+    private
     # @param example [Array, Hash]
     # @return [Hash]
     def predict_prob_val(example, liblinear_func)
