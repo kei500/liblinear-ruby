@@ -23,8 +23,14 @@ module Liblinear
     end
 
     # @return [Integer]
-    def nr_class
+    def class_size
       get_nr_class(@model)
+    end
+
+    # @return [Integer]
+    def nr_class
+      warn "'nr_class' is deprecated. Please use 'class_size' instead."
+      class_size
     end
 
     # @return [Integer]

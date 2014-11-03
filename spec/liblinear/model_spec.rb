@@ -33,9 +33,9 @@ describe Liblinear::Model do
     end
   end
 
-  describe '#nr_class' do
+  describe '#class_size' do
     it 'returns the number of classes' do
-      expect(@model_classification.nr_class).to eq(2)
+      expect(@model_classification.class_size).to eq(2)
     end
   end
 
