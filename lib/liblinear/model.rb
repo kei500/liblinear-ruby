@@ -73,6 +73,15 @@ module Liblinear
       save_model(filename, @model)
     end
 
+    # @param feature_index [Integer]
+    # @param label_index [Integer]
+    # @return [Double, Array <Double>]
+    def coefficient(feature_index = nil, label_index = 0)
+      return get_decfun_coef(@model, feature_index, label_index) if feature_index
+      coefficients = []
+      feature_size.times.map {|feature_index| get_decfun_coef(@model, feature_index + 1, label_index)}
+    end
+
     # @return [Boolean]
     def regression_model?
       check_regression_model(@model) == 1 ? true : false

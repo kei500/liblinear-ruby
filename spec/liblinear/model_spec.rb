@@ -69,6 +69,20 @@ describe Liblinear::Model do
     end
   end
 
+  describe '#coefficient' do
+    it 'returns a coefficient' do
+      expect(@model_classification.coefficient(1, 0).class).to eq(Float)
+    end
+
+    it 'returns a coefficient' do
+      expect(@model_classification.coefficient(1).class).to eq(Float)
+    end
+
+    it 'returns all coefficients' do
+      expect(@model_classification.coefficient.class). to eq(Array)
+    end
+  end
+
   describe '#regression_model?' do
     it 'return true' do
       expect(@model_regression.regression_model?).to eq(true)
