@@ -27,6 +27,11 @@ module Liblinear
       get_nr_class(@model)
     end
 
+    # @return [Integer]
+    def feature_size
+      get_nr_feature(@model)
+    end
+
     # @return [Array <Integer>]
     def labels
       c_int_array = new_int(nr_class)

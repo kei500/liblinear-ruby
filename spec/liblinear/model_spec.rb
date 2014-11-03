@@ -39,6 +39,12 @@ describe Liblinear::Model do
     end
   end
 
+  describe '#feature_size' do
+    it 'return the number of features' do
+      expect(@model_classification.feature_size).to eq(1)
+    end
+  end
+
   describe '#labels' do
     it 'returns labels' do
       expect(@model_classification.labels).to eq([1, 2])
