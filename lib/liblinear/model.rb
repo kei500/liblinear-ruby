@@ -82,6 +82,12 @@ module Liblinear
       feature_size.times.map {|feature_index| get_decfun_coef(@model, feature_index + 1, label_index)}
     end
 
+    # @param label_index [Integer]
+    # @return [Double]
+    def bias(label_index = 0)
+      get_decfun_bias(@model, label_index)
+    end
+
     # @return [Boolean]
     def regression_model?
       check_regression_model(@model) == 1 ? true : false

@@ -79,7 +79,13 @@ describe Liblinear::Model do
     end
 
     it 'returns all coefficients' do
-      expect(@model_classification.coefficient.class). to eq(Array)
+      expect(@model_classification.coefficient.class).to eq(Array)
+    end
+  end
+
+  describe '#bias' do
+    it 'return a bias' do
+      expect(@model_classification.bias.class).to eq(Float)
     end
   end
 
