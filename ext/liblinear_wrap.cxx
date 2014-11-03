@@ -3682,6 +3682,78 @@ fail:
 
 
 SWIGINTERN VALUE
+_wrap_get_decfun_coef(int argc, VALUE *argv, VALUE self) {
+  model *arg1 = (model *) 0 ;
+  int arg2 ;
+  int arg3 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  double result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 3) || (argc > 3)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 3)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "model const *","get_decfun_coef", 1, argv[0] )); 
+  }
+  arg1 = reinterpret_cast< model * >(argp1);
+  ecode2 = SWIG_AsVal_int(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "int","get_decfun_coef", 2, argv[1] ));
+  } 
+  arg2 = static_cast< int >(val2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","get_decfun_coef", 3, argv[2] ));
+  } 
+  arg3 = static_cast< int >(val3);
+  result = (double)get_decfun_coef((model const *)arg1,arg2,arg3);
+  vresult = SWIG_From_double(static_cast< double >(result));
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_get_decfun_bias(int argc, VALUE *argv, VALUE self) {
+  model *arg1 = (model *) 0 ;
+  int arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int val2 ;
+  int ecode2 = 0 ;
+  double result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 2) || (argc > 2)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 2)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "model const *","get_decfun_bias", 1, argv[0] )); 
+  }
+  arg1 = reinterpret_cast< model * >(argp1);
+  ecode2 = SWIG_AsVal_int(argv[1], &val2);
+  if (!SWIG_IsOK(ecode2)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode2), Ruby_Format_TypeError( "", "int","get_decfun_bias", 2, argv[1] ));
+  } 
+  arg2 = static_cast< int >(val2);
+  result = (double)get_decfun_bias((model const *)arg1,arg2);
+  vresult = SWIG_From_double(static_cast< double >(result));
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
 _wrap_free_model_content(int argc, VALUE *argv, VALUE self) {
   model *arg1 = (model *) 0 ;
   void *argp1 = 0 ;
@@ -3793,6 +3865,30 @@ _wrap_check_probability_model(int argc, VALUE *argv, VALUE self) {
   }
   arg1 = reinterpret_cast< model * >(argp1);
   result = (int)check_probability_model((model const *)arg1);
+  vresult = SWIG_From_int(static_cast< int >(result));
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_check_regression_model(int argc, VALUE *argv, VALUE self) {
+  model *arg1 = (model *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  int result;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_model, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "model const *","check_regression_model", 1, argv[0] )); 
+  }
+  arg1 = reinterpret_cast< model * >(argp1);
+  result = (int)check_regression_model((model const *)arg1);
   vresult = SWIG_From_int(static_cast< int >(result));
   return vresult;
 fail:
@@ -4622,11 +4718,14 @@ SWIGEXPORT void Init_liblinearswig(void) {
   rb_define_module_function(mLiblinearswig, "get_nr_feature", VALUEFUNC(_wrap_get_nr_feature), -1);
   rb_define_module_function(mLiblinearswig, "get_nr_class", VALUEFUNC(_wrap_get_nr_class), -1);
   rb_define_module_function(mLiblinearswig, "get_labels", VALUEFUNC(_wrap_get_labels), -1);
+  rb_define_module_function(mLiblinearswig, "get_decfun_coef", VALUEFUNC(_wrap_get_decfun_coef), -1);
+  rb_define_module_function(mLiblinearswig, "get_decfun_bias", VALUEFUNC(_wrap_get_decfun_bias), -1);
   rb_define_module_function(mLiblinearswig, "free_model_content", VALUEFUNC(_wrap_free_model_content), -1);
   rb_define_module_function(mLiblinearswig, "free_and_destroy_model", VALUEFUNC(_wrap_free_and_destroy_model), -1);
   rb_define_module_function(mLiblinearswig, "destroy_param", VALUEFUNC(_wrap_destroy_param), -1);
   rb_define_module_function(mLiblinearswig, "check_parameter", VALUEFUNC(_wrap_check_parameter), -1);
   rb_define_module_function(mLiblinearswig, "check_probability_model", VALUEFUNC(_wrap_check_probability_model), -1);
+  rb_define_module_function(mLiblinearswig, "check_regression_model", VALUEFUNC(_wrap_check_regression_model), -1);
   rb_define_module_function(mLiblinearswig, "set_print_string_function", VALUEFUNC(_wrap_set_print_string_function), -1);
   rb_define_module_function(mLiblinearswig, "new_int", VALUEFUNC(_wrap_new_int), -1);
   rb_define_module_function(mLiblinearswig, "delete_int", VALUEFUNC(_wrap_delete_int), -1);

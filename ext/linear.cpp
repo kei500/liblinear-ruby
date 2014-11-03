@@ -1010,7 +1010,7 @@ static void solve_l2r_l1l2_svr(
 	double d, G, H;
 	double Gmax_old = INF;
 	double Gmax_new, Gnorm1_new;
-	double Gnorm1_init;
+	double Gnorm1_init = -1.0; // Gnorm1_init is initialized at the first iteration
 	double *beta = new double[l];
 	double *QD = new double[l];
 	double *y = prob->y;
@@ -1409,7 +1409,7 @@ static void solve_l1r_l2_svc(
 	double d, G_loss, G, H;
 	double Gmax_old = INF;
 	double Gmax_new, Gnorm1_new;
-	double Gnorm1_init;
+	double Gnorm1_init = -1.0; // Gnorm1_init is initialized at the first iteration
 	double d_old, d_diff;
 	double loss_old, loss_new;
 	double appxcond, cond;
@@ -1699,7 +1699,7 @@ static void solve_l1r_lr(
 	double sigma = 0.01;
 	double w_norm, w_norm_new;
 	double z, G, H;
-	double Gnorm1_init;
+	double Gnorm1_init = -1.0; // Gnorm1_init is initialized at the first iteration
 	double Gmax_old = INF;
 	double Gmax_new, Gnorm1_new;
 	double QP_Gmax_old = INF;
@@ -2051,8 +2051,8 @@ static void transpose(const problem *prob, feature_node **x_space_ret, problem *
 	int i;
 	int l = prob->l;
 	int n = prob->n;
-	long int nnz = 0;
-	long int *col_ptr = new long int [n+1];
+	size_t nnz = 0;
+	size_t *col_ptr = new size_t [n+1];
 	feature_node *x_space;
 	prob_col->l = l;
 	prob_col->n = n;
@@ -2305,9 +2305,7 @@ model* train(const problem *prob, const parameter *param)
 	model_->param = *param;
 	model_->bias = prob->bias;
 
-	if(param->solver_type == L2R_L2LOSS_SVR ||
-	   param->solver_type == L2R_L1LOSS_SVR_DUAL ||
-	   param->solver_type == L2R_L2LOSS_SVR_DUAL)
+	if(check_regression_model(model_))
 	{
 		model_->w = Malloc(double, w_size);
 		model_->nr_class = 2;
@@ -2512,9 +2510,7 @@ double predict_values(const struct model *model_, const struct feature_node *x, 
 
 	if(nr_class==2)
 	{
-		if(model_->param.solver_type == L2R_L2LOSS_SVR ||
-		   model_->param.solver_type == L2R_L1LOSS_SVR_DUAL ||
-		   model_->param.solver_type == L2R_L2LOSS_SVR_DUAL)
+		if(check_regression_model(model_))
 			return dec_values[0];
 		else
 			return (dec_values[0]>0)?model_->label[0]:model_->label[1];
@@ -2764,6 +2760,53 @@ void get_labels(const model *model_, int* label)
 			label[i] = model_->label[i];
 }
 
+// use inline here for better performance (around 20% faster than the non-inline one)
+static inline double get_w_value(const struct model *model_, int idx, int label_idx) 
+{
+	int nr_class = model_->nr_class;
+	int solver_type = model_->param.solver_type;
+	const double *w = model_->w;
+
+	if(idx < 0 || idx > model_->nr_feature)
+		return 0;
+	if(check_regression_model(model_))
+		return w[idx];
+	else 
+	{
+		if(label_idx < 0 || label_idx >= nr_class)
+			return 0;
+		if(nr_class == 2 && solver_type != MCSVM_CS)
+		{
+			if(label_idx == 0)
+				return w[idx];
+			else
+				return -w[idx];
+		}
+		else
+			return w[idx*nr_class+label_idx];
+	}
+}
+
+// feat_idx: starting from 1 to nr_feature
+// label_idx: starting from 0 to nr_class-1 for classification models;
+//            for regression models, label_idx is ignored.
+double get_decfun_coef(const struct model *model_, int feat_idx, int label_idx)
+{
+	if(feat_idx > model_->nr_feature)
+		return 0;
+	return get_w_value(model_, feat_idx-1, label_idx);
+}
+
+double get_decfun_bias(const struct model *model_, int label_idx)
+{
+	int bias_idx = model_->nr_feature;
+	double bias = model_->bias;
+	if(bias <= 0)
+		return 0;
+	else
+		return bias*get_w_value(model_, bias_idx, label_idx);
+}
+
 void free_model_content(struct model *model_ptr)
 {
 	if(model_ptr->w != NULL)
@@ -2822,6 +2865,13 @@ int check_probability_model(const struct model *model_)
 	return (model_->param.solver_type==L2R_LR ||
 			model_->param.solver_type==L2R_LR_DUAL ||
 			model_->param.solver_type==L1R_LR);
+}
+
+int check_regression_model(const struct model *model_)
+{
+	return (model_->param.solver_type==L2R_L2LOSS_SVR ||
+			model_->param.solver_type==L2R_L1LOSS_SVR_DUAL ||
+			model_->param.solver_type==L2R_L2LOSS_SVR_DUAL);
 }
 
 void set_print_string_function(void (*print_func)(const char*))
