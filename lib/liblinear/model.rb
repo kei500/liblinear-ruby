@@ -23,15 +23,26 @@ module Liblinear
     end
 
     # @return [Integer]
-    def nr_class
+    def class_size
       get_nr_class(@model)
+    end
+
+    # @return [Integer]
+    def nr_class
+      warn "'nr_class' is deprecated. Please use 'class_size' instead."
+      class_size
+    end
+
+    # @return [Integer]
+    def feature_size
+      get_nr_feature(@model)
     end
 
     # @return [Array <Integer>]
     def labels
-      c_int_array = new_int(nr_class)
+      c_int_array = new_int(class_size)
       get_labels(@model, c_int_array)
-      labels = int_array_c_to_ruby(c_int_array, nr_class)
+      labels = int_array_c_to_ruby(c_int_array, class_size)
       delete_int(c_int_array)
       labels
     end
@@ -62,14 +73,34 @@ module Liblinear
       save_model(filename, @model)
     end
 
-    private 
+    # @param feature_index [Integer]
+    # @param label_index [Integer]
+    # @return [Double, Array <Double>]
+    def coefficient(feature_index = nil, label_index = 0)
+      return get_decfun_coef(@model, feature_index, label_index) if feature_index
+      coefficients = []
+      feature_size.times.map {|feature_index| get_decfun_coef(@model, feature_index + 1, label_index)}
+    end
+
+    # @param label_index [Integer]
+    # @return [Double]
+    def bias(label_index = 0)
+      get_decfun_bias(@model, label_index)
+    end
+
+    # @return [Boolean]
+    def regression_model?
+      check_regression_model(@model) == 1 ? true : false
+    end
+
+    private
     # @param example [Array, Hash]
     # @return [Hash]
     def predict_prob_val(example, liblinear_func)
       feature_nodes = convert_to_feature_node_array(example, @model.nr_feature, @model.bias)
-      c_double_array = Liblinearswig.new_double(nr_class)
+      c_double_array = new_double(class_size)
       Liblinearswig.send(liblinear_func, @model, feature_nodes, c_double_array)
-      values = double_array_c_to_ruby(c_double_array, nr_class)
+      values = double_array_c_to_ruby(c_double_array, class_size)
       delete_double(c_double_array)
       feature_node_array_destroy(feature_nodes)
       value_list = {}
