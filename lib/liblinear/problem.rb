@@ -3,6 +3,7 @@ module Liblinear
     include Liblinear
     include Liblinearswig
     attr_accessor :prob
+    attr_reader :labels, :examples
 
     # @param labels [Array <Double>]
     # @param examples [Array <Double, Hash>]
@@ -13,7 +14,8 @@ module Liblinear
         raise ArgumentError, 'labels and examples must be same size'
       end
       @prob = Liblinearswig::Problem.new
-      @c_label = new_double_array(labels)
+      @labels = labels
+      c_labels = new_double_array(@labels)
       @examples = examples
       @bias = bias
       @max_example_index = max_index(@examples)
@@ -23,7 +25,7 @@ module Liblinear
       set_example_matrix
 
       @prob.tap do |p|
-        p.y = @c_label
+        p.y = c_labels
         p.x = @example_matrix
         p.bias = bias
         p.l = examples.size
