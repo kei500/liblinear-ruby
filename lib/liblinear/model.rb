@@ -13,9 +13,9 @@ module Liblinear
         unless arg_1.is_a?(Liblinear::Problem) && arg_2.is_a?(Liblinear::Parameter)
           raise ArgumentError, 'arguments must be [Liblinear::Problem] and [Liblinear::Parameter]'
         end
-        error_msg = check_parameter(arg_1.prob, arg_2.params)
+        error_msg = check_parameter(arg_1.prob, arg_2.param)
         raise InvalidParameter, error_msg if error_msg
-        @model = train(arg_1.prob, arg_2.params)
+        @model = train(arg_1.prob, arg_2.param)
       else
         raise ArgumentError, 'argument must be [String]' unless arg_1.is_a?(String)
         @model = load_model(arg_1)
