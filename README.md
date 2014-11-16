@@ -43,6 +43,15 @@ puts model.predict({1=>1, 2=>1, 3=>1, 4=>1, 5=>1}) # => -1.0
 # Analyzing phase
 puts model.coefficient
 puts model.bias
+
+# Cross Validation
+fold = 2
+cv = Liblinear::CrossValidator.new(prob, param, fold)
+cv.execute
+
+puts cv.accuracy                        # for classification
+puts cv.mean_squared_error              # for regression
+puts cv.squared_correlation_coefficient # for regression
 ```
 ## Usage
 
