@@ -1870,7 +1870,7 @@ SWIG_ruby_failed(void)
 } 
 
 
-/*@SWIG:/usr/share/swig2.0/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
+/*@SWIG:/usr/local/share/swig/2.0.4/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2LONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -1925,7 +1925,7 @@ SWIG_From_int  (int value)
 }
 
 
-/*@SWIG:/usr/share/swig2.0/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
+/*@SWIG:/usr/local/share/swig/2.0.4/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2DBL(VALUE *args)
 {
   VALUE obj = args[0];
@@ -2051,7 +2051,7 @@ SWIG_FromCharPtr(const char *cptr)
   }
 
 
-/*@SWIG:/usr/share/swig2.0/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
+/*@SWIG:/usr/local/share/swig/2.0.4/ruby/rubyprimtypes.swg,19,%ruby_aux_method@*/
 SWIGINTERN VALUE SWIG_AUX_NUM2ULONG(VALUE *args)
 {
   VALUE obj = args[0];
@@ -2959,6 +2959,59 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_parameter_init_sol_set(int argc, VALUE *argv, VALUE self) {
+  parameter *arg1 = (parameter *) 0 ;
+  double *arg2 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_parameter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "parameter *","init_sol", 1, self )); 
+  }
+  arg1 = reinterpret_cast< parameter * >(argp1);
+  res2 = SWIG_ConvertPtr(argv[0], &argp2,SWIGTYPE_p_double, SWIG_POINTER_DISOWN |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "double *","init_sol", 2, argv[0] )); 
+  }
+  arg2 = reinterpret_cast< double * >(argp2);
+  if (arg1) (arg1)->init_sol = arg2;
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_parameter_init_sol_get(int argc, VALUE *argv, VALUE self) {
+  parameter *arg1 = (parameter *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  double *result = 0 ;
+  VALUE vresult = Qnil;
+  
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(self, &argp1,SWIGTYPE_p_parameter, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "parameter *","init_sol", 1, self )); 
+  }
+  arg1 = reinterpret_cast< parameter * >(argp1);
+  result = (double *) ((arg1)->init_sol);
+  vresult = SWIG_NewPointerObj(SWIG_as_voidptr(result), SWIGTYPE_p_double, 0 |  0 );
+  return vresult;
+fail:
+  return Qnil;
+}
+
+
 #ifdef HAVE_RB_DEFINE_ALLOC_FUNC
 SWIGINTERN VALUE
 _wrap_parameter_allocate(VALUE self) {
@@ -3424,6 +3477,75 @@ _wrap_cross_validation(int argc, VALUE *argv, VALUE self) {
   }
   arg4 = reinterpret_cast< double * >(argp4);
   cross_validation((problem const *)arg1,(parameter const *)arg2,arg3,arg4);
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_find_parameter_C(int argc, VALUE *argv, VALUE self) {
+  problem *arg1 = (problem *) 0 ;
+  parameter *arg2 = (parameter *) 0 ;
+  int arg3 ;
+  double arg4 ;
+  double arg5 ;
+  double *arg6 = (double *) 0 ;
+  double *arg7 = (double *) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  int val3 ;
+  int ecode3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  double val5 ;
+  int ecode5 = 0 ;
+  void *argp6 = 0 ;
+  int res6 = 0 ;
+  void *argp7 = 0 ;
+  int res7 = 0 ;
+  
+  if ((argc < 7) || (argc > 7)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 7)",argc); SWIG_fail;
+  }
+  res1 = SWIG_ConvertPtr(argv[0], &argp1,SWIGTYPE_p_problem, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "problem const *","find_parameter_C", 1, argv[0] )); 
+  }
+  arg1 = reinterpret_cast< problem * >(argp1);
+  res2 = SWIG_ConvertPtr(argv[1], &argp2,SWIGTYPE_p_parameter, 0 |  0 );
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), Ruby_Format_TypeError( "", "parameter const *","find_parameter_C", 2, argv[1] )); 
+  }
+  arg2 = reinterpret_cast< parameter * >(argp2);
+  ecode3 = SWIG_AsVal_int(argv[2], &val3);
+  if (!SWIG_IsOK(ecode3)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode3), Ruby_Format_TypeError( "", "int","find_parameter_C", 3, argv[2] ));
+  } 
+  arg3 = static_cast< int >(val3);
+  ecode4 = SWIG_AsVal_double(argv[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), Ruby_Format_TypeError( "", "double","find_parameter_C", 4, argv[3] ));
+  } 
+  arg4 = static_cast< double >(val4);
+  ecode5 = SWIG_AsVal_double(argv[4], &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), Ruby_Format_TypeError( "", "double","find_parameter_C", 5, argv[4] ));
+  } 
+  arg5 = static_cast< double >(val5);
+  res6 = SWIG_ConvertPtr(argv[5], &argp6,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res6)) {
+    SWIG_exception_fail(SWIG_ArgError(res6), Ruby_Format_TypeError( "", "double *","find_parameter_C", 6, argv[5] )); 
+  }
+  arg6 = reinterpret_cast< double * >(argp6);
+  res7 = SWIG_ConvertPtr(argv[6], &argp7,SWIGTYPE_p_double, 0 |  0 );
+  if (!SWIG_IsOK(res7)) {
+    SWIG_exception_fail(SWIG_ArgError(res7), Ruby_Format_TypeError( "", "double *","find_parameter_C", 7, argv[6] )); 
+  }
+  arg7 = reinterpret_cast< double * >(argp7);
+  find_parameter_C((problem const *)arg1,(parameter const *)arg2,arg3,arg4,arg5,arg6,arg7);
   return Qnil;
 fail:
   return Qnil;
@@ -4685,6 +4807,8 @@ SWIGEXPORT void Init_liblinearswig(void) {
   rb_define_method(SwigClassParameter.klass, "weight", VALUEFUNC(_wrap_parameter_weight_get), -1);
   rb_define_method(SwigClassParameter.klass, "p=", VALUEFUNC(_wrap_parameter_p_set), -1);
   rb_define_method(SwigClassParameter.klass, "p", VALUEFUNC(_wrap_parameter_p_get), -1);
+  rb_define_method(SwigClassParameter.klass, "init_sol=", VALUEFUNC(_wrap_parameter_init_sol_set), -1);
+  rb_define_method(SwigClassParameter.klass, "init_sol", VALUEFUNC(_wrap_parameter_init_sol_get), -1);
   SwigClassParameter.mark = 0;
   SwigClassParameter.destroy = (void (*)(void *)) free_parameter;
   SwigClassParameter.trackObjects = 0;
@@ -4710,6 +4834,7 @@ SWIGEXPORT void Init_liblinearswig(void) {
   SwigClassModel.trackObjects = 0;
   rb_define_module_function(mLiblinearswig, "train", VALUEFUNC(_wrap_train), -1);
   rb_define_module_function(mLiblinearswig, "cross_validation", VALUEFUNC(_wrap_cross_validation), -1);
+  rb_define_module_function(mLiblinearswig, "find_parameter_C", VALUEFUNC(_wrap_find_parameter_C), -1);
   rb_define_module_function(mLiblinearswig, "predict_values", VALUEFUNC(_wrap_predict_values), -1);
   rb_define_module_function(mLiblinearswig, "predict", VALUEFUNC(_wrap_predict), -1);
   rb_define_module_function(mLiblinearswig, "predict_probability", VALUEFUNC(_wrap_predict_probability), -1);
