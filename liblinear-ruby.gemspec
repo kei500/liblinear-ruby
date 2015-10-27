@@ -6,11 +6,11 @@ require 'liblinear/version'
 Gem::Specification.new do |spec|
   spec.name          = "liblinear-ruby"
   spec.version       = Liblinear::VERSION
-  spec.authors       = ["Kei Tsuchiya"]
-  spec.email         = ["kei.tsuchiya86@gmail.com"]
+  spec.authors       = ["Kevin Tan"]
+  spec.email         = ["tankevin8686@gmail.com"]
   spec.description   = %q{Ruby wrapper of LIBLINEAR using SWIG}
   spec.summary       = %q{Ruby wrapper of LIBLINEAR using SWIG}
-  spec.homepage      = "https://github.com/kei500/liblinear-ruby"
+  spec.homepage      = "https://github.com/keklesurvivant/liblinear-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
