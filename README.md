@@ -2,7 +2,7 @@
 [![Gem Version](https://badge.fury.io/rb/liblinear-ruby.png)](http://badge.fury.io/rb/liblinear-ruby)
 
 Liblinear-Ruby is Ruby interface to LIBLINEAR using SWIG.
-Now, this interface is supporting LIBLINEAR 1.95.
+Now, this interface is supporting LIBLINEAR 2.1.
 
 ## Installation
 
