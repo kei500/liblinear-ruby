@@ -131,10 +131,15 @@ options:
 -B bias : if bias >= 0, instance x becomes [x; bias]; if < 0, no bias term added (default -1)
 -wi weight: weights adjust the parameter C of different classes (see README for details)
 -v n: n-fold cross validation mode
+-C : find parameter C (only for -s 0 and 2)
 -q : quiet mode (no outputs)
 
 Option -v randomly splits the data into n parts and calculates cross
 validation accuracy on them.
+
+Option -C conducts cross validation under different C values and finds
+the best one. This options is supported only by -s 0 and -s 2. If
+the solver is not specified, -s 2 is used.
 
 Formulations:
 
@@ -241,9 +246,26 @@ Train a logistic regression model.
 
 > train -v 5 -e 0.001 data_file
 
-Do five-fold cross-validation using L2-loss svm.
+Do five-fold cross-validation using L2-loss SVM.
 Use a smaller stopping tolerance 0.001 than the default
 0.1 if you want more accurate solutions.
+
+> train -C data_file
+
+Conduct cross validation many times by L2-loss SVM 
+and find the parameter C which achieves the best cross 
+validation accuracy.
+
+> train -C -s 0 -v 3 -c 0.5 -e 0.0001 data_file
+
+For parameter selection by -C, users can specify other 
+solvers (currently -s 0 and -s 2 are supported) and 
+different number of CV folds. Further, users can use 
+the -c option to specify the smallest C value of the 
+search range. This setting is useful when users want 
+to rerun the parameter selection procedure from a 
+specified C under a different setting, such as a stricter 
+stopping tolerance -e 0.0001 in the above example.
 
 > train -c 10 -w1 2 -w2 5 -w3 2 four_class_data_file
 
@@ -407,6 +429,22 @@ Library Usage
 
     The format of prob is same as that for train().
 
+- Function: void find_parameter_C(const struct problem *prob, 
+            const struct parameter *param, int nr_fold, double start_C, 
+	    double max_C, double *best_C, double *best_rate);
+
+    This function is similar to cross_validation. However, instead of
+    conducting cross validation under a specified parameter C, it 
+    conducts cross validation many times under parameters C = start_C, 
+    2*start_C, 4*start_C, 8*start_C, ..., and finds the best one with
+    the highest cross validation accuracy.
+    
+    If start_C <= 0, then this procedure calculates a small enough C 
+    for prob as the start_C. The procedure stops when the models of 
+    all folds become stable or C reaches max_C. The best C and the 
+    corresponding accuracy are assigned to *best_C and *best_rate,
+    respectively.
+
 - Function: double predict(const model *model_, const feature_node *x);
 
     For a classification model, the predicted class for x is returned.
@@ -418,11 +456,11 @@ Library Usage
 
     This function gives nr_w decision values in the array dec_values. 
     nr_w=1 if regression is applied or the number of classes is two. An exception is
-    multi-class svm by Crammer and Singer (-s 4), where nr_w = 2 if there are two classes. For all other situations, nr_w is the 
+    multi-class SVM by Crammer and Singer (-s 4), where nr_w = 2 if there are two classes. For all other situations, nr_w is the 
     number of classes.
 
     We implement one-vs-the rest multi-class strategy (-s 0,1,2,3,5,6,7) 
-    and multi-class svm by Crammer and Singer (-s 4) for multi-class SVM.
+    and multi-class SVM by Crammer and Singer (-s 4) for multi-class SVM.
     The class with the highest decision value is returned.
 
 - Function: double predict_probability(const struct model *model_,
@@ -523,7 +561,7 @@ Visual C++, use the following steps:
 1. Open a dos command box and change to liblinear directory. If
 environment variables of VC++ have not been set, type
 
-"C:\Program Files\Microsoft Visual Studio 10.0\VC\bin\vcvars32.bat"
+""C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\amd64\vcvars64.bat""
 
 You may have to modify the above command according which version of
 VC++ or where it is installed.
@@ -532,9 +570,9 @@ VC++ or where it is installed.
 
 nmake -f Makefile.win clean all
 
-2. (Optional) To build 64-bit windows binaries, you must
-	(1) Setup vcvars64.bat instead of vcvars32.bat
-	(2) Change CFLAGS in Makefile.win: /D _WIN32 to /D _WIN64
+2. (Optional) To build 32-bit windows binaries, you must
+	(1) Setup "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\vcvars32.bat" instead of vcvars64.bat
+	(2) Change CFLAGS in Makefile.win: /D _WIN64 to /D _WIN32
 
 MATLAB/OCTAVE Interface
 =======================
