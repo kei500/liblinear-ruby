@@ -1,45 +1,50 @@
 module Liblinear
   class Problem
-    include Liblinear
-    include Liblinearswig
-    attr_accessor :prob
-    attr_reader :labels, :examples
-
-    # @param labels [Array <Double>]
-    # @param examples [Array <Double, Hash>]
-    # @param bias [Double]
-    # @raise [ArgumentError]
+    # @param labels [Array <Float>]
+    # @param examples [Array <Array <Float> or Hash>]
+    # @param bias [Float]
     def initialize(labels, examples, bias = -1)
-      unless labels.size == examples.size
-        raise ArgumentError, 'labels and examples must be same size'
-      end
-      @prob = Liblinearswig::Problem.new
-      @labels = labels
-      c_labels = new_double_array(@labels)
+      @labels   = labels
       @examples = examples
-      @bias = bias
-      @max_example_index = max_index(@examples)
-      @example_matrix = feature_node_matrix(examples.size)
-      @c_example_array = []
+      @bias     = bias
 
-      set_example_matrix
-
-      @prob.tap do |p|
-        p.y = c_labels
-        p.x = @example_matrix
-        p.bias = bias
-        p.l = examples.size
-        p.n = @max_example_index
-        p.n += 1 if bias >= 0
-      end
+      @problem = Liblinearswig::Problem.new
+      @problem.y    = Liblinear::Array::Double.new(labels).swig
+      @problem.x    = example_matrix.swig
+      @problem.bias = bias
+      @problem.l    = examples.size
+      @problem.n    = Liblinear::Example.max_feature_id(examples)
+      @problem.n += 1 if bias >= 0
     end
 
-    def set_example_matrix
-      @examples.size.times do |index|
-        c_example = convert_to_feature_node_array(@examples[index], @max_example_index, @bias)
-        @c_example_array << c_example
-        feature_node_matrix_set(@example_matrix, index, c_example)
-      end
+    # @return [Liblinearswig::Problem]
+    def swig
+      @problem
+    end
+
+    # @return [Integer]
+    def example_size
+      @problem.l
+    end
+
+    # @return [Integer]
+    def max_feature_id
+      @problem.n
+    end
+
+    # @return [Array <Float>]
+    def labels
+      Liblinear::Array::Double.decode(@problem.y, @labels.size)
+    end
+
+    # @return [SWIG::TYPE_p_p_feature_node]
+    def example_matrix
+      Liblinear::FeatureNodeMatrix.new(@examples, @bias)
+    end
+
+    # @return [Float]
+    def bias
+      @problem.bias
     end
   end
 end
