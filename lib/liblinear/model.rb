@@ -66,6 +66,11 @@ class Liblinear
     end
 
     # @return [Boolean]
+    def probability_model?
+      Liblinearswig.check_probability_model(@model) == 1 ? true : false
+    end
+
+    # @return [Boolean]
     def regression_model?
       Liblinearswig.check_regression_model(@model) == 1 ? true : false
     end
