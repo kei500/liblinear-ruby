@@ -6,7 +6,7 @@ module Liblinear
       def max_feature_id(examples)
         max_feature_id = 0
         examples.each do |example|
-          if example.is_a?(Hash)
+          if example.is_a?(::Hash)
             max_feature_id = [max_feature_id, example.keys.max].max if example.size > 0
           else
             max_feature_id = [max_feature_id, example.size].max

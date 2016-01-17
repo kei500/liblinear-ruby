@@ -4,7 +4,7 @@ module Liblinear
     # @param max_feature_id [Integer]
     # @param bias [Float]
     def initialize(example, max_feature_id, bias = -1)
-      example = Liblinear::Example.array_to_hash(example) if example.is_a?(Array)
+      example = Liblinear::Example.array_to_hash(example) if example.is_a?(::Array)
 
       example_indexes = []
       example.each_key do |key|
