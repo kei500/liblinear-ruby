@@ -1,10 +1,14 @@
 class Liblinear
   class Array::Double < Array
     class << self
+      # @param array [SWIG::TYPE_p_double]
+      # @param size [Integer]
+      # @return [Array <Float>]
       def decode(array, size)
         size.times.map {|index| Liblinearswig.double_getitem(array, index)}
       end
 
+      # @param array [SWIG::TYPE_p_double]
       def delete(array)
         Liblinearswig.delete_double(array)
       end
