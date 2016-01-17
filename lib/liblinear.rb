@@ -34,6 +34,24 @@ class Liblinear
     def check_parameter(problem, parameter)
       Liblinearswig.check_parameter(problem.swig, parameter.swig)
     end
+
+    # @param fold [Integer]
+    # @param parameter [Liblinear::Parameter]
+    # @param labels [Array <Integer>]
+    # @examples [Array [Array <Float> or Hash]
+    # @bias [<Float>]
+    # @return [Liblinear::Model]
+    def cross_validation(fold, parameter, labels, examples, bias = -1)
+      parameter = Liblinear::Parameter.new(parameter)
+      problem = Liblinear::Problem.new(labels, examples, bias)
+      error_message = self.check_parameter(problem, parameter)
+      raise Liblinear::InvalidParameter, error_message if error_message
+      prediction_swig = Liblinearswig.new_double(labels.size)
+      Liblinearswig.cross_validation(problem.swig, parameter.swig, fold, prediction_swig)
+      prediction = Liblinear::Array::Double.decode(prediction_swig, labels.size)
+      Liblinear::Array::Double.delete(prediction_swig)
+      prediction
+    end
   end
 
   # @param parameter [Liblinear::Parameter]
