@@ -15,5 +15,9 @@ class Liblinear
     def swig
       @feature_node_matrix
     end
+
+    def delete
+      Liblinearswig.feature_node_matrix_destroy(@feature_node_matrix)
+    end
   end
 end
