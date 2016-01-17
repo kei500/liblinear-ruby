@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Array
     def swig
       @array

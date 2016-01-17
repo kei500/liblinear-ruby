@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Parameter
     class << self
       # @return [Float]

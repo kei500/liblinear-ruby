@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Problem
     # @param labels [Array <Float>]
     # @param examples [Array <Array <Float> or Hash>]

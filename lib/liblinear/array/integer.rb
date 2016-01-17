@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Array::Integer < Array
     class << self
       def decode(array, size)

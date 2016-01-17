@@ -14,7 +14,7 @@ require 'liblinear/parameter'
 require 'liblinear/problem'
 require 'liblinear/version'
 
-module Liblinear
+class Liblinear
   L2R_LR              = Liblinearswig::L2R_LR
   L2R_L2LOSS_SVC_DUAL = Liblinearswig::L2R_L2LOSS_SVC_DUAL
   L2R_L2LOSS_SVC      = Liblinearswig::L2R_L2LOSS_SVC

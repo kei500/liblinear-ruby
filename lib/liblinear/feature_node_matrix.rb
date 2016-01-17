@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class FeatureNodeMatrix
     # @param examples [Array <Array <Float> or Hash>]
     # @param bias [Float]

@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class FeatureNode
     # @param examples [Array <Float> or Hash]
     # @param max_feature_id [Integer]

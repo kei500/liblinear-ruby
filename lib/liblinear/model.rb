@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Model
     class << self
       # @param problem [LibLinear::Problem]

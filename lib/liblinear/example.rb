@@ -1,4 +1,4 @@
-module Liblinear
+class Liblinear
   class Example
     class << self
       # @param examples [Array <Hash, Array>]
