@@ -13,7 +13,7 @@ module Liblinear
     def initialize(array)
       @array = Liblinearswig.new_int(array.size)
       array.size.times do |index|
-        Liblinearswig.int_setitem(array, index, array[index])
+        Liblinearswig.int_setitem(@array, index, array[index])
       end
       @size = array.size
     end
