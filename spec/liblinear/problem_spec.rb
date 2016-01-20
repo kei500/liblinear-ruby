@@ -7,17 +7,39 @@ describe Liblinear::Problem do
     @problem = Liblinear::Problem.new([1, 2], [[1],[2]])
   end
 
-  describe '#initialize' do
-    it 'raise ArgumentError when size of labels is different from that of examples' do
-      expect{
-        Liblinear::Problem.new([1, 2], [[1]])
-      }.to raise_error(ArgumentError, 'labels and examples must be same size')
+  describe '#swig' do
+    it 'returns [Liblinearswig::Problem]' do
+      expect(@problem.swig.class).to eq(Liblinearswig::Problem)
     end
   end
 
-  describe '#prob' do
-    it 'returns an instance of [Liblinearswig::Problem]' do
-      expect(@problem.prob.class).to eq(Liblinearswig::Problem)
+  describe '#example_size' do
+    it 'returns example size' do
+      expect(@problem.example_size).to eq(2)
+    end
+  end
+
+  describe '#max_feature_id' do
+    it 'returns max feature id' do
+      expect(@problem.max_feature_id).to eq(1)
+    end
+  end
+
+  describe '#labels' do
+    it 'returns labels' do
+      expect(@problem.labels).to eq([1, 2])
+    end
+  end
+
+  describe '#example_matrix' do
+    it 'returns example matrix' do
+      expect(@problem.example_matrix.class).to eq(Liblinear::FeatureNodeMatrix)
+    end
+  end
+
+  describe '#bias' do
+    it 'returns bias' do
+      expect(@problem.bias).to eq(-1)
     end
   end
 end
