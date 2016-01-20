@@ -37,7 +37,7 @@ class Liblinear
       Liblinear::Array::Double.decode(@problem.y, @labels.size)
     end
 
-    # @return [SWIG::TYPE_p_p_feature_node]
+    # @return [Liblinear::FeatureNodeMatrix]
     def example_matrix
       Liblinear::FeatureNodeMatrix.new(@examples, @bias)
     end
