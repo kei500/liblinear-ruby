@@ -35,7 +35,7 @@ class Liblinear
     end
 
     # @param fold [Integer]
-    # @param parameter [Liblinear::Parameter]
+    # @param parameter [Hash]
     # @param labels [Array <Integer>]
     # @examples [Array [Array <Float> or Hash]
     # @bias [<Float>]
