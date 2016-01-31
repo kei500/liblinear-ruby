@@ -31,7 +31,7 @@ class Liblinear
     end
 
     # @param parameter [Hash]
-    def initialize(parameter)
+    def initialize(parameter = {})
       parameter[:weight_labels] = [] if parameter[:weight_labels].nil?
       parameter[:weights]       = [] if parameter[:weights].nil?
 
