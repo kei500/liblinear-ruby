@@ -14,6 +14,7 @@ class Liblinear
       end
     end
 
+    # @param array [Array <Integer>]
     def initialize(array)
       @array = Liblinearswig.new_int(array.size)
       array.size.times do |index|
