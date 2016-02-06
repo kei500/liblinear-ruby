@@ -2,6 +2,14 @@ $: << File.expand_path(File.join(__FILE__, '..', '..', 'lib'))
 require 'liblinear'
 
 describe Liblinear do
+  before do
+    @model = Liblinear.train(
+      { solver_type: Liblinear::L2R_LR },
+      [1, 2],
+      [[-1, -1], [1, 1]],
+    )
+  end
+
   describe 'solver type' do
     it 'solver type equal integer value defined Liblinearswig' do
       expect(Liblinear::L2R_LR).to              eq(Liblinearswig::L2R_LR)
@@ -18,48 +26,39 @@ describe Liblinear do
     end
   end
 
-  describe 'class method' do
-    describe '#check_parameter' do
-      it 'returns error message' do
-        expect(
-          Liblinear.check_parameter(
-            Liblinear::Problem.new([1, 2], [[1], [2]]),
-            Liblinear::Parameter.new({cost: -1})
-          )
-        ).to eq('C <= 0')
-      end
-    end
-
-    describe '#cross_validation' do
-      it 'returns cross validation result' do
-        expect(
-          Liblinear.cross_validation(
-            2,
-            {},
-            [1, 2],
-            [[1], [-1]]
-          ).class
-        ).to eq(Array)
-      end
+  describe '#check_parameter' do
+    it 'returns error message' do
+      expect(
+        Liblinear.check_parameter(
+          Liblinear::Problem.new([1, 2], [[1], [2]]),
+          Liblinear::Parameter.new({cost: -1})
+        )
+      ).to eq('C <= 0')
     end
   end
 
-  describe 'instance method' do
-    before do
-      @liblinear = Liblinear.new
-      @liblinear.train({}, [1, 2], [[1], [-1]])
+  describe '#cross_validation' do
+    it 'returns cross validation result' do
+      expect(
+        Liblinear.cross_validation(
+          2,
+          {},
+          [1, 2],
+          [[1], [-1]]
+        ).class
+      ).to eq(Array)
     end
+  end
 
-    describe '#predict' do
-      it 'returns prediction' do
-        expect(@liblinear.predict([1])).to eq(1)
-      end
+  describe '#predict' do
+    it 'returns prediction' do
+      expect(Liblinear.predict(@model, [0.5, 0.5])).to eq(2.0)
     end
+  end
 
-    describe 'labels' do
-      it 'returns labels' do
-        expect(@liblinear.labels).to eq([1, 2])
-      end
+  describe 'labels' do
+    it 'returns labels' do
+      expect(Liblinear.labels(@model)).to eq([1, 2])
     end
   end
 end
