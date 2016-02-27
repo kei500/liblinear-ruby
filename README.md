@@ -1,7 +1,7 @@
 # Liblinear-Ruby
 [![Gem Version](https://badge.fury.io/rb/liblinear-ruby.png)](http://badge.fury.io/rb/liblinear-ruby)
 
-Liblinear-Ruby is Ruby interface to LIBLINEAR using SWIG.
+Liblinear-Ruby is Ruby interface of LIBLINEAR using SWIG.  
 Now, this interface is supporting LIBLINEAR 2.1.
 
 ## Installation
@@ -23,63 +23,29 @@ This sample code execute classification with L2-regularized logistic regression.
 ```ruby
 require 'liblinear'
 
-# Setting parameters
-param = Liblinear::Parameter.new
-param.solver_type = Liblinear::L2R_LR
-
-# Training phase
-labels = [1, -1]
-examples = [
-  {1=>0, 2=>0, 3=>0, 4=>0, 5=>0},
-  {1=>1, 2=>1, 3=>1, 4=>1, 5=>1}
-]
-bias = 0.5
-prob = Liblinear::Problem.new(labels, examples, bias)
-model = Liblinear::Model.new(prob, param)
-
-# Predicting phase
-puts model.predict({1=>1, 2=>1, 3=>1, 4=>1, 5=>1}) # => -1.0
-
-# Analyzing phase
-puts model.coefficient
-puts model.bias
-
-# Cross Validation
-fold = 2
-cv = Liblinear::CrossValidator.new(prob, param, fold)
-cv.execute
-
-puts cv.accuracy                        # for classification
-puts cv.mean_squared_error              # for regression
-puts cv.squared_correlation_coefficient # for regression
-```
-## Usage
-
-### Setting parameters
-First, you have to make an instance of Liblinear::Parameter:
-```ruby
-param = Liblinear::Parameter.new
-```
-And then set the parameters as:
-```ruby
-param.[parameter_you_set] = value
-```
-Or you can set by Hash as:
-```ruby
-parameter = {
-  parameter_you_set: value,
-  ...
-}
-param = Liblinear::Parameter.new(parameter)
+# train
+model = Liblinear.train(
+  { solver_type: Liblinear::L2R_LR },   # parameter
+  [-1, -1, 1, 1],                       # labels (classes) of training data
+  [[-2, -2], [-1, -1], [1, 1], [2, 2]], # training data
+)
+# predict
+puts Liblinear.predict(model, [0.5, 0.5]) # predicted class will be 1
 ```
 
-#### Type of solver
-This parameter is comparable to -s option on command line.  
-You can set as:
-```ruby
-param.solver_type = solver_type # default 1 (Liblinear::L2R_L2LOSS_SVC_DUAL)
-```
-Solver types you can set are shown below.
+## Parameter
+There are some parameters you can specify:
+
+- `solver_type`
+- `cost`
+- `sensitive_loss`
+- `epsilon`
+- `weight_labels` and `weights`
+
+### solver_type
+This parameter specifies a type of solver (default: `Liblinear::L2R_L2LOSS_SVC_DUAL`).  
+This corresponds to `-s` option on command line.  
+Solver types you can set are shown below:  
 ```ruby
 # for multi-class classification
 Liblinear::L2R_LR              # L2-regularized logistic regression (primal)
@@ -97,92 +63,80 @@ Liblinear::L2R_L2LOSS_SVR_DUAL # L2-regularized L2-loss support vector regressio
 Liblinear::L2R_L1LOSS_SVR_DUAL # L2-regularized L1-loss support vector regression (dual)
 ```
 
-#### C parameter
-This parameter is comparable to -c option on command line.   
-You can set as:
-```ruby
-param.C = value # default 1
-```
+### cost
+This parameter specifies the cost of constraints violation (default `1.0`).  
+This corresponds to `-c` option on command line.
 
-#### Epsilon in loss function of epsilon-SVR
-This parameter is comparable to -p option on command line.   
-You can set as:
-```ruby
-param.p = value # default 0.1
-```
+### sensitive_loss
+This parameter specifies an epsilon in loss function of epsilon-SVR (default `0.1`).  
+This corresponds to `-p` option on command line.   
 
-#### Tolerance of termination criterion
-This parameter is comparable to -e option on command line.   
-You can set as:
-```ruby
-param.eps = value # default 0.1
-```
+### epsilon
+This parameter specifies a tolerance of termination criterion.  
+This corresponds to `-e` option on command line.  
+The default value depends on a type of solver. See LIBLINEAR's README or `Liblinear::Parameter.default_epsion` for more details.
 
-#### Weight
-This parameter adjust the parameter C of different classes(see LIBLINEAR's README for details).  
-nr_weight is the number of elements in the array weight_label and weight.  
-You can set as:
-```ruby
-param.nr_weight = value                # default 0
-param.weight_label = [Array <Integer>] # default []
-param.weight = [Array <Double>]        # default []
-```
+### weight_labels and weights
+These parameters are used to change the penalty for some classes (default `[]`).  
+Each `weights[i]` corresponds to `weight_labels[i]`, meaning that the penalty of class `weight_labels[i]` is scaled by a factor of `weights[i]`.  
 
-### Training phase
-You have to prepare training data.  
-The format of training data is shown below:
-```ruby
-# Labels mean class
-label = [1, -1, ...]
 
-# Training data have to be array of hash or array of array
-# If you chose array of hash
+## Train
+First, prepare training data.  
+
+```ruby
+# Define class of each training data:
+labels = [1, -1, ...]
+
+# Training data is Array of Array:
 examples = [
-  {1=>0, 2=>0, 3=>0, 4=>0, 5=>0},
-  {1=>1, 2=>1, 3=>1, 4=>1, 5=>1},
+  [1, 0, 0, 1, 0],
+  [0, 0, 0, 1, 1],
   ...
 ]
 
-# If you chose array of array
+# You can also use Array of Hash instead:
 examples = [
-  [0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1],
+  { 1 => 1, 4 => 1 },
+  { 4 => 1, 5 => 1 },
+  ...
 ]
 ```
-Next, set the bias (this is comparable to -B option on command line):
+
+Next, set the bias (this corresponds to `-B` option on command line):
 ```ruby
 bias = 0.5 # default -1
 ```
-And then make an instance of Liblinear::Problem and Liblinear::Model:
+
+Then, specify parameters and execute `Liblinear.train` to get the instance of `Liblinear::Model`.
 ```ruby
-prob = Liblinear::Problem.new(labels, examples, bias)
-model = Liblinear::Model.new(prob, param)
+model = Liblinear.train(parameter, labels, examples, bias)
 ```
-If you have already had a model file, you can load it as:
-```ruby
-model = Liblinear::Model.new(model_file)
-```
+
 In this phase, you can save model as:
 ```ruby
 model.save(file_name)
 ```
 
-### Predicting phase
-Input a data whose format is same as training data:
+If you have already had a model file, you can load it as:
 ```ruby
-# Hash
-model.predict({1=>1, 2=>1, 3=>1, 4=>1, 5=>1})
-# Array
-model.predict([1, 1, 1, 1, 1])
+model = Liblinear::Model.load(file_name)
 ```
 
-## Contributing
+## Predict
+Prepare the data you want to predict its class and call `Liblinear.predict`.
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+```ruby
+examples = [0, 0, 0, 1, 1]
+Liblinear.predict(model, example)
+```
+
+## Cross Validation
+To get classes predicted by k-fold cross validation, use `Liblinear.cross_validation`.  
+For example, `results[0]` is a class predicted by `examples` excepts part including `examples[0]`.
+```ruby
+results = Liblinear.cross_validation(fold, parameter, labels, examples)
+```
 
 ## Thanks
 - http://www.csie.ntu.edu.tw/~cjlin/liblinear/
