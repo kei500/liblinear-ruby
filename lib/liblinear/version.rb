@@ -1,3 +1,3 @@
-module Liblinear
-  VERSION = '0.0.7'
+class Liblinear
+  VERSION = '1.0.0'
 end

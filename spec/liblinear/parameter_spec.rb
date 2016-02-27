@@ -2,56 +2,66 @@ $: << File.expand_path(File.join(__FILE__, '..', '..', '..', 'lib'))
 require 'liblinear'
 
 describe Liblinear::Parameter do
-  before do
-    @param = Liblinear::Parameter.new
-  end
-
-  describe '#solver_type' do
-    it 'returns solver type' do
-      @param.solver_type = 0
-      expect(@param.solver_type).to eq(Liblinear::L2R_LR)
+  describe 'class method' do
+    describe '#default_epsilon' do
+      it 'returns default value of epsilon' do
+        expect(Liblinear::Parameter.default_epsilon(Liblinear::L2R_L2LOSS_SVR)).to eq(0.001)
+      end
     end
   end
 
-  describe '#c' do
-    it 'returns C' do
-      @param.C = 2
-      expect(@param.C).to eq(2)
+  describe 'instance method' do
+    before do
+      @parameter = Liblinear::Parameter.new({
+        solver_type:    Liblinear::L2R_LR,
+        cost:           0.5,
+        sensitive_loss: 0.2,
+        epsilon:        0.5,
+        weight_labels:  [1, 2],
+        weights:        [0.1, 0.2],
+      })
     end
-  end
 
-  describe '#eps' do
-    it 'returns eps' do
-      @param.eps = 0.0
-      expect(@param.eps).to eq(0.0)
+    describe '#swig' do
+      it 'returns [Liblinearswig::Parameter]' do
+        expect(@parameter.swig.class).to eq(Liblinearswig::Parameter)
+      end
     end
-  end
 
-  describe '#p' do
-    it 'returns p' do
-      @param.p = 0.0
-      expect(@param.p).to eq(0.0)
+    describe '#solver_type' do
+      it 'returns solver type' do
+        expect(@parameter.solver_type).to eq(Liblinear::L2R_LR)
+      end
     end
-  end
 
-  describe '#nr_weight' do
-    it 'returns nr_weight' do
-      @param.nr_weight = 3
-      expect(@param.nr_weight).to eq(3)
+    describe '#cost' do
+      it 'returns cost' do
+        expect(@parameter.cost).to eq(0.5)
+      end
     end
-  end
 
-  describe '#weight_label' do
-    it 'returns weight_label' do
-      @param.weight_label = [1, 2, 3]
-      expect(@param.weight_label.class).to eq(SWIG::TYPE_p_int)
+    describe '#sensitive_loss' do
+      it 'returns sensitive loss' do
+        expect(@parameter.sensitive_loss).to eq(0.2)
+      end
     end
-  end
 
-  describe '#weight' do
-    it 'returns weight' do
-      @param.weight = [1.0, 2.0, 3.0]
-      expect(@param.weight.class).to eq(SWIG::TYPE_p_double)
+    describe '#epsilon' do
+      it 'returns epsilon' do
+        expect(@parameter.epsilon).to eq(0.5)
+      end
+    end
+
+    describe '#weight_labels' do
+      it 'returns weight labels' do
+        expect(@parameter.weight_labels).to eq([1, 2])
+      end
+    end
+
+    describe '#weights' do
+      it 'returns weights' do
+        expect(@parameter.weights).to eq([0.1, 0.2])
+      end
     end
   end
 end
