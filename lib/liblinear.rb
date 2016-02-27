@@ -39,7 +39,7 @@ class Liblinear
     # @param labels [Array <Integer>]
     # @examples [Array [Array <Float> or Hash]
     # @bias [<Float>]
-    # @return [Liblinear::Model]
+    # @return [Array <Float>]
     def cross_validation(fold, parameter, labels, examples, bias = -1)
       parameter = Liblinear::Parameter.new(parameter)
       problem = Liblinear::Problem.new(labels, examples, bias)
