@@ -123,7 +123,7 @@ If you have already had a model file, you can load it as:
 model = Liblinear::Model.load(file_name)
 ```
 
-## Feature weights
+## Feature Weights
 To get the feature weights of the model.
 
 ```ruby
