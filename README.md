@@ -123,6 +123,13 @@ If you have already had a model file, you can load it as:
 model = Liblinear::Model.load(file_name)
 ```
 
+## Feature weights
+To get the feature weights of the model.
+
+```ruby
+model.feature_weights
+```
+
 ## Predict
 Prepare the data you want to predict its class and call `Liblinear.predict`.
 
