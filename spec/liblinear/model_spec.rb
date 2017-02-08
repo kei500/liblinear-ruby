@@ -3,6 +3,7 @@ require 'liblinear'
 
 describe Liblinear::Model do
   before do
+    Liblinear.quiet_mode
     @problem = Liblinear::Problem.new([1, 2], [[1],[2]])
     @parameter = Liblinear::Parameter.new()
     @model = Liblinear::Model.train(@problem, @parameter)

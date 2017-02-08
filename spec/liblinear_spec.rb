@@ -3,6 +3,7 @@ require 'liblinear'
 
 describe Liblinear do
   before do
+    Liblinear.quiet_mode
     @model = Liblinear.train(
       { solver_type: Liblinear::L2R_LR },
       [1, 2],
