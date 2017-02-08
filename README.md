@@ -145,6 +145,16 @@ For example, `results[0]` is a class predicted by `examples` excepts part includ
 results = Liblinear.cross_validation(fold, parameter, labels, examples)
 ```
 
+## Quiet / Verbose Mode
+You can supress output while executing `Liblinear::Model.train`.
+```ruby
+# Output is supressed by:
+Liblinear.quiet_mode
+
+# You can undo by:
+Liblinear.verbose_mode
+```
+
 ## Thanks
 - http://www.csie.ntu.edu.tw/~cjlin/liblinear/
 - https://github.com/tomz/liblinear-ruby-swig
