@@ -125,5 +125,13 @@ class Liblinear
       Liblinear::Array::Integer.delete(labels_swig)
       labels
     end
+
+    def quiet_mode
+      Liblinearswig.disable_stdout
+    end
+
+    def verbose_mode
+      Liblinearswig.enable_stdout
+    end
   end
 end
