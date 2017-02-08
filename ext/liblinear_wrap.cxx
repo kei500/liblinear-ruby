@@ -2137,6 +2137,23 @@ void feature_node_matrix_destroy(struct feature_node **matrix)
         free(matrix);
 }
 
+static void print_string_stdout(const char *s)
+{
+        fputs(s,stdout);
+        fflush(stdout);
+}
+
+void print_null(const char *s) {}
+
+void enable_stdout() {
+    set_print_string_function(&print_string_stdout);
+}
+
+void disable_stdout() {
+    set_print_string_function(&print_null);
+}
+
+
 swig_class SwigClassFeature_node;
 
 SWIGINTERN VALUE
@@ -4438,6 +4455,78 @@ fail:
 }
 
 
+SWIGINTERN VALUE
+_wrap_print_string_stdout(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","print_string_stdout", 1, argv[0] ));
+  }
+  arg1 = reinterpret_cast< char * >(buf1);
+  print_string_stdout((char const *)arg1);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return Qnil;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_print_null(int argc, VALUE *argv, VALUE self) {
+  char *arg1 = (char *) 0 ;
+  int res1 ;
+  char *buf1 = 0 ;
+  int alloc1 = 0 ;
+  
+  if ((argc < 1) || (argc > 1)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 1)",argc); SWIG_fail;
+  }
+  res1 = SWIG_AsCharPtrAndSize(argv[0], &buf1, NULL, &alloc1);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), Ruby_Format_TypeError( "", "char const *","print_null", 1, argv[0] ));
+  }
+  arg1 = reinterpret_cast< char * >(buf1);
+  print_null((char const *)arg1);
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return Qnil;
+fail:
+  if (alloc1 == SWIG_NEWOBJ) delete[] buf1;
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_enable_stdout(int argc, VALUE *argv, VALUE self) {
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  enable_stdout();
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
+SWIGINTERN VALUE
+_wrap_disable_stdout(int argc, VALUE *argv, VALUE self) {
+  if ((argc < 0) || (argc > 0)) {
+    rb_raise(rb_eArgError, "wrong # of arguments(%d for 0)",argc); SWIG_fail;
+  }
+  disable_stdout();
+  return Qnil;
+fail:
+  return Qnil;
+}
+
+
 
 /* -------- TYPE CONVERSION AND EQUIVALENCE RULES (BEGIN) -------- */
 
@@ -4866,5 +4955,9 @@ SWIGEXPORT void Init_liblinearswig(void) {
   rb_define_module_function(mLiblinearswig, "feature_node_matrix", VALUEFUNC(_wrap_feature_node_matrix), -1);
   rb_define_module_function(mLiblinearswig, "feature_node_matrix_set", VALUEFUNC(_wrap_feature_node_matrix_set), -1);
   rb_define_module_function(mLiblinearswig, "feature_node_matrix_destroy", VALUEFUNC(_wrap_feature_node_matrix_destroy), -1);
+  rb_define_module_function(mLiblinearswig, "print_string_stdout", VALUEFUNC(_wrap_print_string_stdout), -1);
+  rb_define_module_function(mLiblinearswig, "print_null", VALUEFUNC(_wrap_print_null), -1);
+  rb_define_module_function(mLiblinearswig, "enable_stdout", VALUEFUNC(_wrap_enable_stdout), -1);
+  rb_define_module_function(mLiblinearswig, "disable_stdout", VALUEFUNC(_wrap_disable_stdout), -1);
 }
 
