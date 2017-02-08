@@ -38,4 +38,21 @@ void feature_node_matrix_destroy(struct feature_node **matrix)
 {
         free(matrix);
 }
+
+static void print_string_stdout(const char *s)
+{
+        fputs(s,stdout);
+        fflush(stdout);
+}
+
+void print_null(const char *s) {}
+
+void enable_stdout() {
+    set_print_string_function(&print_string_stdout);
+}
+
+void disable_stdout() {
+    set_print_string_function(&print_null);
+}
+
 %}
