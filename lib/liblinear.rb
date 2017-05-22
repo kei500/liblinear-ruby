@@ -26,6 +26,8 @@ class Liblinear
   L2R_L2LOSS_SVR_DUAL = Liblinearswig::L2R_L2LOSS_SVR_DUAL
   L2R_L1LOSS_SVR_DUAL = Liblinearswig::L2R_L1LOSS_SVR_DUAL
 
+  LIBLINEAR_VERSION   = sprintf("%.2f", Liblinearswig::LIBLINEAR_VERSION / 100.0)
+
   class << self
     # @param problem [Liblinear::Problem]
     # @param parameter [Liblinear::Parameter]
