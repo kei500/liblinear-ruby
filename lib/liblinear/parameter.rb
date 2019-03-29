@@ -21,7 +21,7 @@ class Liblinear
         when Liblinear::L2R_LR_DUAL         then
           0.1
         when Liblinear::L2R_L2LOSS_SVR      then
-          0.001
+          0.0001
         when Liblinear::L2R_L2LOSS_SVR_DUAL then
           0.1
         when Liblinear::L2R_L1LOSS_SVR_DUAL then
