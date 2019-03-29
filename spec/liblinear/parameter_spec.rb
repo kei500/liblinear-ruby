@@ -5,7 +5,7 @@ describe Liblinear::Parameter do
   describe 'class method' do
     describe '#default_epsilon' do
       it 'returns default value of epsilon' do
-        expect(Liblinear::Parameter.default_epsilon(Liblinear::L2R_L2LOSS_SVR)).to eq(0.001)
+        expect(Liblinear::Parameter.default_epsilon(Liblinear::L2R_L2LOSS_SVR)).to eq(0.0001)
       end
     end
   end
